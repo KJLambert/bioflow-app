@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  marklogic:
+    build: ./marklogic
+    ports:
+      - "8000:8000"   # App Server
+      - "8001:8001"   # Admin Interface
+      - "8002:8002"   # App Services
+    volumes:
+      - marklogic-data:/var/opt/MarkLogic
+
+  airflow:
+    image: apache/airflow:2.9.1-python3.10
+    restart: always
+    depends_on:
+      - node-api
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+    volumes:
+      - ../backend/airflow-dags:/opt/airflow/dags
+      - ../data/genbank:/data/genbank
+    ports:
+      - "8081:8080"
+    command: >
+      bash -c "airflow db init &&
+               airflow users create --username admin --firstname Air --lastname Flow --role ${user} --email ${email} --password ${pw} &&
+               airflow scheduler & airflow webserver"
+
+  node-api:
+    build: ./node-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - marklogic
+    environment:
+      - MARKLOGIC_BASE=http://marklogic:8000
+      - ML_USER=admin
+      - ML_PASS=admin
+    volumes:
+      - ../backend/node-api:/usr/src/app
+
+  angular-admin:
+    build: ../frontend/angular-admin
+    ports:
+      - "4200:80"
+    depends_on:
+      - node-api
+
+  vue-client:
+    build: ../frontend/vue-client
+    ports:
+      - "5173:80"
+    depends_on:
+      - node-api
+
+volumes:
+  marklogic-data:
+

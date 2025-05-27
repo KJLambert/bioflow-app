@@ -1,0 +1,4 @@
+<collection xmlns="http://marklogic.com/xdmp">
+  <uri>/genomes/</uri>
+  <collection-name>genbank</collection-name>
+</collection>

@@ -1,0 +1,26 @@
+<database xmlns="http://marklogic.com/xdmp/database">
+  <range-element-index>
+    <scalar-type>int</scalar-type>
+    <namespace-uri/>
+    <localname>start</localname>
+    <collation/>
+    <range-value-positions>true</range-value-positions>
+    <invalid-values>reject</invalid-values>
+  </range-element-index>
+  <range-element-index>
+    <scalar-type>int</scalar-type>
+    <namespace-uri/>
+    <localname>end</localname>
+    <collation/>
+    <range-value-positions>true</range-value-positions>
+    <invalid-values>reject</invalid-values>
+  </range-element-index>
+  <range-element-index>
+    <scalar-type>string</scalar-type>
+    <namespace-uri/>
+    <localname>organism</localname>
+    <collation>http://marklogic.com/collation/</collation>
+    <range-value-positions>false</range-value-positions>
+    <invalid-values>reject</invalid-values>
+  </range-element-index>
+</database>

@@ -1,0 +1,14 @@
+<div style="padding: 2rem">
+    <h2>GenBank Feature Query</h2>
+    <form (ngSubmit)="search()">
+      <input [(ngModel)]="organism" name="organism" placeholder="Organism" />
+      <input [(ngModel)]="feature" name="feature" placeholder="Feature" />
+      <input [(ngModel)]="start" name="start" type="number" placeholder="Start" />
+      <input [(ngModel)]="end" name="end" type="number" placeholder="End" />
+      <button type="submit">Search</button>
+    </form>
+  
+    <ul>
+      <li *ngFor="let res of results">{{ res }}</li>
+    </ul>
+  </div>
